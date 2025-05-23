@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import "./ContentEditor.css";
+import "./contentEditor.css";
 
 export default function ContentUploadForm() {
   const router = useRouter();
