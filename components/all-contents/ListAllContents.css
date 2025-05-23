@@ -1,0 +1,118 @@
+/* Base Styles */
+.content-gallery {
+  font-family: "Hind Siliguri", "Poppins", sans-serif;
+  background-color: #f8f4e8;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Header Styles */
+.gallery-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  border-bottom: 2px solid #e2d0b7;
+  padding-bottom: 2rem;
+}
+
+.gallery-header h1 {
+  font-size: 2.5rem;
+  color: #8b5a2b;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.gallery-header p {
+  font-size: 1.2rem;
+  color: #8b5a2b;
+}
+
+/* Content Container */
+.contents-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Content Card Styles */
+.content-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  overflow: hidden;
+  border-left: 6px solid #d4a017;
+}
+
+.card-header {
+  background-color: #f0e6d2;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.content-date {
+  font-size: 0.9rem;
+  color: #8b5a2b;
+}
+
+.content-title {
+  font-size: 1.5rem;
+  color: #5c3a21;
+  margin: 0;
+  font-weight: 600;
+}
+
+.content-body {
+  padding: 1.5rem;
+}
+
+.content-paragraph {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+  text-align: justify;
+  color: #444;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: #8b5a2b;
+}
+
+/* Footer Styles */
+.gallery-footer {
+  text-align: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid #e2d0b7;
+  color: #8b5a2b;
+  font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .gallery-header h1 {
+    font-size: 2rem;
+  }
+
+  .content-title {
+    font-size: 1.3rem;
+    margin-top: 0.5rem;
+  }
+
+  .content-paragraph {
+    font-size: 1rem;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}

@@ -1,0 +1,149 @@
+/* Base Styles */
+.intro-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  font-family: "Hind Siliguri", sans-serif;
+  background-color: #f8f4e8;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Header with Photos */
+.header-with-photos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.namaste-header h1 {
+  font-size: 2.5rem;
+  color: #8b5a2b;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  letter-spacing: 1px;
+}
+
+.divider-line {
+  width: 100px;
+  height: 3px;
+  background-color: #d4a017;
+  margin: 0 auto;
+}
+
+/* Photo Placeholders */
+.photo-placeholder {
+  width: 120px;
+  height: 150px;
+  background-color: #f0e6d2;
+  border: 2px dashed #d4a017;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.photo-placeholder.left {
+  margin-right: 2rem;
+}
+
+.photo-placeholder.right {
+  margin-left: 2rem;
+}
+
+.placeholder-text {
+  color: #8b5a2b;
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+/* Content Styles */
+.intro-content {
+  text-align: justify;
+  font-size: 1.1rem;
+}
+
+.intro-text {
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #444;
+}
+
+/* Nepali Quote */
+.nepali-quote {
+  background-color: #fff9e6;
+  border-left: 4px solid #d4a017;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  font-style: italic;
+  color: #8b5a2b;
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+
+/* Blessing Footer */
+.blessing-footer {
+  border-top: 2px solid #e2d0b7;
+  padding-top: 2rem;
+  margin-top: 2rem;
+}
+
+.signature {
+  font-size: 1.3rem;
+  color: #8b5a2b;
+  line-height: 1.6;
+}
+
+.name {
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.origin {
+  color: #8b5a2b;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .intro-container {
+    padding: 1rem;
+  }
+
+  .header-with-photos {
+    flex-direction: column;
+  }
+
+  .photo-placeholder {
+    width: 100px;
+    height: 120px;
+    margin: 1rem 0 !important;
+  }
+
+  .photo-placeholder.left {
+    order: 1;
+  }
+
+  .namaste-header {
+    order: 2;
+    margin: 1rem 0;
+  }
+
+  .photo-placeholder.right {
+    order: 3;
+  }
+
+  .namaste-header h1 {
+    font-size: 2rem;
+  }
+
+  .intro-text,
+  .nepali-quote {
+    font-size: 1.1rem;
+  }
+}
