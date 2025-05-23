@@ -53,7 +53,7 @@ export default function ContentUploadForm() {
 
   return (
     <div className="content-form-container">
-      <h2 className="form-title">Share Your Story</h2>
+      <h2 className="form-title">तपाईंको कथा साझा गर्नुहोस्</h2>
 
       <form onSubmit={handleSubmit} className="content-form">
         <div>
@@ -63,7 +63,7 @@ export default function ContentUploadForm() {
             name="title"
             value={formData.title}
             onChange={handleChange}
-            placeholder="e.g., My Childhood Memories"
+            placeholder="मलाई सम्झना आयो"
             className="input"
           />
         </div>
@@ -79,7 +79,7 @@ export default function ContentUploadForm() {
             onChange={handleChange}
             required
             rows={8}
-            placeholder="Write your memories, thoughts, or stories here..."
+            placeholder="यहाँ तपाईंका सम्झनाहरू, विचारहरू, वा कथाहरू लेख्नुहोस्..."
             className="textarea"
           />
         </div>
@@ -92,7 +92,7 @@ export default function ContentUploadForm() {
               isSubmitting || !formData.description ? "button-disabled" : ""
             }`}
           >
-            {isSubmitting ? "Saving..." : "Save Story"}
+            {isSubmitting ? "सेभ गर्दैछ..." : "कथा सेभ गर्नुहोस्"}
           </button>
         </div>
       </form>

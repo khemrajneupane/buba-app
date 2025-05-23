@@ -204,6 +204,12 @@ const Header = () => {
           >
             संस्मरण
           </Link>
+          <Link
+            href="/content-upload"
+            className="nav-link btn btn-success btn-sm px-3 py-1 rounded-pill"
+          >
+            अपलोड
+          </Link>
           {/* Navigation Links */}
           <nav className="nav-links d-flex align-items-center gap-3">
             <Link
