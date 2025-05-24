@@ -9,12 +9,12 @@ import {
 // Correct type parameters
 const router = createEdgeRouter<NextRequest, void>();
 
-router.use(isAuthenticatedUser).post(uploadContents);
 router.get(getAllContents);
-
 export async function GET(request: NextRequest): Promise<NextResponse> {
   return router.run(request) as Promise<NextResponse>;
 }
+router.use(isAuthenticatedUser).post(uploadContents);
+
 export async function POST(request: NextRequest): Promise<NextResponse> {
   return router.run(request) as Promise<NextResponse>;
 }
