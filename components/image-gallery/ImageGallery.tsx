@@ -61,44 +61,54 @@ const Gallery = () => {
   }, []);
 
   if (loading) return <div className="loading-spinner">Loading...</div>;
-
+  const isMP4 = (url: string) => {
+    return url.toLowerCase().endsWith(".mp4");
+  };
+  let isAudio;
   const galleryItems = images.map((img) => ({
     original: img.url,
     thumbnail: img.url,
     originalAlt: "Family Image",
     thumbnailAlt: "Thumbnail",
-    renderItem: (item: any) => (
-      <div className="gallery-item-container">
-        {/*isFullscreen && (
+
+    renderItem: (item: any) => {
+      isAudio = isMP4(img.url);
+
+      return (
+        <div className="gallery-item-container">
+          {!isAudio ? (
+            <img
+              src={item.original}
+              alt={item.originalAlt}
+              className="gallery-original-image"
+            />
+          ) : (
+            <div className="empty-gallery">
+              <div className="default-image-container audios-container">
+                <audio controls>
+                  <source src={item.original} type="audio/mp4" />
+                  Your browser does not support the audio element.
+                </audio>
+              </div>
+            </div>
+          )}
           <button
-            className="custom-exit-fullscreen"
-            onClick={() => document.exitFullscreen()}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              deleteImage(img.public_id, img._id);
+            }}
+            className="delete-btn"
           >
-            <FaCompress />
+            <FiTrash2 className="trash-icon" />
           </button>
-        )*/}
-        <img
-          src={item.original}
-          alt={item.originalAlt}
-          className="gallery-original-image"
-        />
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            deleteImage(img.public_id, img._id);
-          }}
-          className="delete-btn"
-        >
-          <FiTrash2 className="trash-icon" />
-        </button>
-        {data?.user && (
-          <div className="image-info">अपलोड गर्ने {img?.username}</div>
-        )}
-      </div>
-    ),
+          {data?.user && (
+            <div className="image-info">अपलोड गर्ने {img?.username}</div>
+          )}
+        </div>
+      );
+    },
   }));
-  console.log("imagenames", images);
   return (
     <div className="gallery-container">
       {images.length === 0 ? (

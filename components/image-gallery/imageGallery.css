@@ -120,25 +120,9 @@
     font-size: 1rem;
   }
 }
-/* Custom Exit Fullscreen Button */
-/*.custom-exit-fullscreen {
-  position: fixed;
-  bottom: 100px;
-  left: 0;
-  z-index: 10000;
-  background-color: rgba(0, 0, 0, 0.75);
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  padding: 12px 20px;
-  font-size: 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.7);
-  transition: background-color 0.3s ease;
+.audios {
 }
-
-.custom-exit-fullscreen:hover {
-  background-color: rgba(0, 0, 0, 0.9);
-}*/
+.audios-container {
+  border: 2px solid red;
+  z-index: 1001;
+}
