@@ -109,7 +109,7 @@ const UploadImages = () => {
 
   return (
     <div className="upload-container">
-      <h2 className="upload-title">Image Upload</h2>
+      <h2 className="upload-title">तस्वीर अपलोड</h2>
 
       <form onSubmit={handleSubmit} className="upload-form">
         {/* File Input Area */}
@@ -117,9 +117,11 @@ const UploadImages = () => {
           {!preview ? (
             <div className="drop-zone-content">
               <div className="upload-icon">↑</div>
-              <p>Drag and drop your image here</p>
-              <p>or click to browse files</p>
-              <p className="file-requirements">Supports: JPEG, PNG (Max 5MB)</p>
+              <p>यहाँ तपाईंको तस्वीर तान्नुहोस् र छोड्नुहोस्</p>
+              <p>वा फाइल ब्राउज गर्न क्लिक गर्नुहोस्</p>
+              <p className="file-requirements">
+                समर्थित: JPEG, PNG (अधिकतम ५MB)
+              </p>
             </div>
           ) : (
             <div className="preview-container">
@@ -138,11 +140,15 @@ const UploadImages = () => {
           )}
           <input
             type="file"
+            id="fileUpload"
             ref={fileInputRef}
             accept="image/*"
             onChange={handleFileChange}
             className="file-input"
           />
+          <label htmlFor="fileUpload" className="upload-label">
+            {file ? file.name : "तपाईंको तस्वीर यहाँ छान्नुहोस्"}
+          </label>
         </div>
 
         {/* Upload Button */}
@@ -154,10 +160,10 @@ const UploadImages = () => {
           {uploading ? (
             <>
               <span className="spinner"></span>
-              Uploading...
+              अपलोड हुँदैछ...
             </>
           ) : (
-            <>↑ Upload Image</>
+            <>↑ तस्वीर अपलोड गर्नुहोस्</>
           )}
         </button>
       </form>

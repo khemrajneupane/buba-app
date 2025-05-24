@@ -86,7 +86,7 @@ const ChatWidget = () => {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-                  placeholder="Type a message..."
+                  placeholder="तपाईं जुनसुकै कुरा सोध्न सक्नुहुन्छ।..."
                 />
                 <button
                   onClick={sendMessage}

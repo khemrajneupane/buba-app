@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import { signOut, useSession } from "next-auth/react";
+import { ADToBS } from "bikram-sambat-js";
 import "./header.css";
 import DigitalWatch from "../digital-watch/DigitalWatch";
 
@@ -24,7 +25,6 @@ const Header = () => {
   const dropdownRef = useRef<HTMLImageElement>(null);
   const menuDropdownRef = useRef<HTMLDivElement>(null);
 
-  const today = new Date();
   const { data } = useSession();
 
   const fallbackMembers: Member[] = [
@@ -46,11 +46,9 @@ const Header = () => {
     { name: "Peshal", image: "/images/user-heart-fill.png" },
   ];
 
-  const formattedDate = today.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const today = new Date();
+  const nepaliDate = ADToBS(today);
+  const formattedDate = nepaliDate;
 
   const hasFourCharSubstringMatch = (str1: string, str2: string): boolean => {
     const clean1 = str1.toLowerCase().replace(/\s+/g, "");

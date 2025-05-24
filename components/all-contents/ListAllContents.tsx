@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ADToBS } from "bikram-sambat-js";
 import "./ListAllContents.css";
 
 interface Content {
@@ -39,7 +40,6 @@ export default function ListAllContents() {
       </div>
     );
   }
-
   return (
     <div className="content-gallery">
       {/* Traditional Nepali Header */}
@@ -60,7 +60,7 @@ export default function ListAllContents() {
               {/* Card Header */}
               <div className="card-header">
                 <span className="content-date">
-                  {new Date(content.createdAt).toLocaleDateString("ne-NP")}
+                  {ADToBS(new Date(content.createdAt))}
                 </span>
                 {content.title && (
                   <h2 className="content-title">{content.title}</h2>
@@ -83,7 +83,8 @@ export default function ListAllContents() {
       {/* Traditional Nepali Footer */}
       <footer className="gallery-footer">
         <p>
-          © {new Date().getFullYear()} घनश्याम न्यौपाने. सर्वाधिकार सुरक्षित.
+          © {ADToBS(new Date().getFullYear().toString())} घनश्याम न्यौपाने.
+          सर्वाधिकार सुरक्षित.
         </p>
         <p>प्रेम र सम्मानसहित तपाईंको छोराले बनाएको</p>
       </footer>
