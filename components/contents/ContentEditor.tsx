@@ -2,11 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
+import { useSession } from "next-auth/react";
 import "./contentEditor.css";
 
 export default function ContentUploadForm() {
   const router = useRouter();
+
+  const { data } = useSession();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -25,6 +28,31 @@ export default function ContentUploadForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const title = formData.title.trim();
+    const description = formData.description.trim();
+
+    // Validation before any API call
+    if (!title && !description) {
+      toast.error("Title and Description are required.");
+      return;
+    }
+
+    if (!title) {
+      toast.error("Title is required.");
+      return;
+    }
+
+    if (!description) {
+      toast.error("Description is required.");
+      return;
+    }
+
+    if (!data) {
+      toast.error("Please log in first.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -33,19 +61,24 @@ export default function ContentUploadForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ title, description }),
       });
 
+      const resContents = await response.json();
+
       if (!response.ok) {
-        throw new Error("Failed to save content");
+        throw new Error(resContents?.error || "Failed to save content");
       }
 
-      toast.success("Your story has been saved successfully!");
+      toast.success(
+        resContents.message || "तपाईंको कथा सफलतापूर्वक सुरक्षित गरिएको छ!!"
+      );
+
       setFormData({ title: "", description: "" });
-      router.refresh();
-    } catch (error) {
-      toast.error("Something went wrong. Please try again.");
-      console.error(error);
+      router.push("/all-contents");
+      // router.refresh(); // Uncomment if needed
+    } catch (error: any) {
+      toast.error(error.message || "Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -63,14 +96,14 @@ export default function ContentUploadForm() {
             name="title"
             value={formData.title}
             onChange={handleChange}
-            placeholder="मलाई सम्झना आयो"
+            placeholder="कथाको शीर्षक"
             className="input"
           />
         </div>
 
         <div>
           <label htmlFor="description" className="label">
-            Your Story *
+            तपाईंको कथा *
           </label>
           <textarea
             id="description"

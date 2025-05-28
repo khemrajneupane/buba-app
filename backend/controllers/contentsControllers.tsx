@@ -11,10 +11,11 @@ export const uploadContents = catchAsyncErrors(async (req: NextRequest) => {
   const body = await req.json();
 
   const { title, description } = body;
-
+  const session = await getToken({ req });
   const user = await Contents.create({
     title,
     description,
+    user: session?.user,
   });
 
   return NextResponse.json({
@@ -26,9 +27,34 @@ export const uploadContents = catchAsyncErrors(async (req: NextRequest) => {
 // Get all contents
 export const getAllContents = async () => {
   await dbConnect();
-  const contents = await Contents.find({});
+  const contents = await Contents.find({})
+    .populate("user", "name email") // 👈 only include name, email
+    .exec();
   return NextResponse.json({ contents });
 };
+
+// Get a content details => /api/contents/:id
+export const getAContentById = catchAsyncErrors(
+  async (req: NextRequest, { params }: { params: { id: string } }) => {
+    const content = await Contents.findById(params.id)
+      .populate("user", "name email") // 👈 only include name, email
+      .exec();
+    if (!content) {
+      return NextResponse.json(
+        {
+          message: "content not found",
+        },
+        {
+          status: 404,
+        }
+      );
+    }
+    return NextResponse.json({
+      success: true,
+      content,
+    });
+  }
+);
 
 // Delete a content
 export const deleteContent = catchAsyncErrors(
@@ -45,6 +71,8 @@ export const deleteContent = catchAsyncErrors(
         );
       }
       if (!session?.name) throw new Error("Unauthorized");
+      //@ts-ignore
+      if (session?.user?.role !== "admin") throw new Error("Unauthorized");
 
       await Contents.findByIdAndDelete(params.id);
 

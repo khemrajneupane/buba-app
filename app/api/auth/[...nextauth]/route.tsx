@@ -9,10 +9,12 @@ import { NextRequest } from "next/server";
 type Credentials = {
   email: string;
   password: string;
+  role: string;
 };
 
 type Token = {
   user: IUser;
+  role: string;
 };
 
 async function auth(req: NextRequest, res: any) {

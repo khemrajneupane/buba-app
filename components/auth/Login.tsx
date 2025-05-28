@@ -33,12 +33,8 @@ const Login = () => {
       router.replace("/");
     }
   };
-  const googleLogin = async () => await signIn("google");
-  useEffect(() => {
-    if (data) {
-      router.replace("/");
-    }
-  }, [data, router]);
+  const googleLogin = async () => await signIn("google", { callbackUrl: "/" });
+
   return (
     <div className="row wrapper justify-content-center">
       <div className="col-12 col-md-8 col-lg-6 col-xl-5">
