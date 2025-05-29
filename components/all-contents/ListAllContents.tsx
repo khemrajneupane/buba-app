@@ -171,19 +171,19 @@ export default function ListAllContents() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="modal-header">
+                {
+                  // @ts-ignore
+                  data?.user?.role === "admin" && (
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDelete(selectedContent._id)}
+                    >
+                      <FiTrash2 />
+                    </button>
+                  )
+                }
                 <h2>{selectedContent.title || "एउटा कथा !!"}</h2>
                 <div className="modal-actions">
-                  {
-                    // @ts-ignore
-                    data?.user?.role === "admin" && (
-                      <button
-                        className="delete-btn"
-                        onClick={() => handleDelete(selectedContent._id)}
-                      >
-                        <FiTrash2 />
-                      </button>
-                    )
-                  }
                   <button
                     className="close-btn"
                     onClick={() => setSelectedContent(null)}

@@ -176,9 +176,9 @@ body {
   gap: 2rem;
 }
 .delete-btn {
-  position: absolute;
-  bottom: 0;
-  right: 0;
+  position: relative;
+  bottom: 100%;
+  left: 0;
 }
 .close-btn,
 .delete-btn {
@@ -221,6 +221,7 @@ body {
 .content-paragraph {
   margin-bottom: 1rem;
   font-size: clamp(1rem, 1.2vw, 1.1rem);
+  color: #000202;
 }
 
 .gallery-footer {
@@ -234,7 +235,7 @@ body {
 
 @media (max-width: 768px) {
   .contents-container {
-    padding: 0;
+    padding: 1rem;
   }
 
   .content-card {
