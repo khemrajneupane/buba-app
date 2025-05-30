@@ -20,7 +20,7 @@ jobs:
 
   notify-success:
     needs: build
-    if: success()
+    if: failure()
     runs-on: ubuntu-latest
     steps:
       - name: Notify Slack - Success
