@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      message: ${{ steps.get_commit.outputs.message }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
