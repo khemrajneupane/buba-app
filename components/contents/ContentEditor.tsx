@@ -34,22 +34,22 @@ export default function ContentUploadForm() {
 
     // Validation before any API call
     if (!title && !description) {
-      toast.error("Title and Description are required.");
+      toast.error("शीर्षक र विवरण आवश्यक छन्।");
       return;
     }
 
     if (!title) {
-      toast.error("Title is required.");
+      toast.error("शीर्षक आवश्यक छ।");
       return;
     }
 
     if (!description) {
-      toast.error("Description is required.");
+      toast.error("विवरण आवश्यक छ।");
       return;
     }
 
     if (!data) {
-      toast.error("Please log in first.");
+      toast.error("कृपया पहिले लगइन गर्नुहोस्।");
       return;
     }
 
@@ -67,7 +67,9 @@ export default function ContentUploadForm() {
       const resContents = await response.json();
 
       if (!response.ok) {
-        throw new Error(resContents?.error || "Failed to save content");
+        throw new Error(
+          resContents?.error || "सामग्री सुरक्षित गर्न असफल भयो।"
+        );
       }
 
       toast.success(
@@ -78,7 +80,9 @@ export default function ContentUploadForm() {
       router.push("/all-contents");
       // router.refresh(); // Uncomment if needed
     } catch (error: any) {
-      toast.error(error.message || "Something went wrong. Please try again.");
+      toast.error(
+        error.message || "केही गलत भयो। कृपया फेरि प्रयास गर्नुहोस्।"
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -110,7 +114,6 @@ export default function ContentUploadForm() {
             name="description"
             value={formData.description}
             onChange={handleChange}
-            required
             rows={8}
             placeholder="यहाँ तपाईंका सम्झनाहरू, विचारहरू, वा कथाहरू लेख्नुहोस्..."
             className="textarea"

@@ -38,7 +38,7 @@
   width: 120px;
   height: 150px;
   background-color: #f0e6d2;
-  border: 2px dashed #d4a017;
+  border: 2px solid #d4a017;
   border-radius: 4px;
   display: flex;
   justify-content: center;

@@ -5,21 +5,12 @@ const AboutPage = () => {
     <div className="intro-container">
       {/* Header with Photo Placeholders */}
       <div className="header-with-photos">
-        <div className="photo-placeholder left">
-          <div className="placeholder-text">
-            <img src="/images/buba-1.jpg" />
-          </div>
+        <div className="photo-placeholder right">
+          <img src="/images/buba-2.jpg" />
         </div>
-
         <div className="namaste-header">
           <h1>नमस्ते र हार्दिक स्वागत छ</h1>
           <div className="divider-line"></div>
-        </div>
-
-        <div className="photo-placeholder right">
-          <div className="placeholder-text">
-            <img src="/images/buba-2.jpg" />
-          </div>
         </div>
       </div>
 
