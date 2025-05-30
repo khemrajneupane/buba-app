@@ -1,0 +1,26 @@
+name: Notify Slack on Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack Notification
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data "{
+            \"text\": \"🚀 New deployment triggered for *${GITHUB_REPOSITORY}* on branch *${GITHUB_REF_NAME}*\",
+            \"attachments\": [
+              {
+                \"color\": \"#2eb886\",
+                \"title\": \"View Repo\",
+                \"title_link\": \"https://github.com/${GITHUB_REPOSITORY}\"
+              }
+            ]
+          }" $SLACK_WEBHOOK_URL
