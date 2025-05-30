@@ -12,11 +12,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Get Commit Message
+        id: get_commit
+        run: echo "message=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT
+
       - name: Simulated Build Step
         run: |
           echo "Building..."
-          # Uncomment the next line to simulate a failure
-          # exit 1
 
   notify-success:
     needs: build
@@ -34,7 +36,7 @@ jobs:
                 "type": "header",
                 "text": {
                   "type": "plain_text",
-                  "text": "❌ Deployment Failed",
+                  "text": "✅ Deployment Succeeded",
                   "emoji": true
                 }
               },
@@ -43,14 +45,16 @@ jobs:
                 "fields": [
                   { "type": "mrkdwn", "text": "*Repo:*\n<https://github.com/${GITHUB_REPOSITORY}|${GITHUB_REPOSITORY}>" },
                   { "type": "mrkdwn", "text": "*Branch:*\n${GITHUB_REF_NAME}" },
-                  { "type": "mrkdwn", "text": "*By:*\n${GITHUB_ACTOR}" }
+                  { "type": "mrkdwn", "text": "*By:*\n${GITHUB_ACTOR}" },
+                  { "type": "mrkdwn", "text": "*Commit:*\n<https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}|${GITHUB_SHA::7}>" }
                 ]
               },
-              {
-                "type": "context",
-                "elements": [
-                  { "type": "mrkdwn", "text": "Investigate the failed job in GitHub: <https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}|View Logs>" }
-                ]
+                            {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Commit Message:*\n${{ steps.get_commit.outputs.message }}"
+                }
               }
             ]
           }
