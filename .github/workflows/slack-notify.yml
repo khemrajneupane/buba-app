@@ -8,8 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      commit_message: ${{ steps.get_commit.outputs.message }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -30,7 +28,7 @@ jobs:
       - name: Notify Slack - Success
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          COMMIT_MESSAGE: ${{ needs.build.outputs.commit_message }}
+          COMMIT_MESSAGE: ${{ needs.build.outputs.message }}
         run: |
           curl -X POST -H "Content-Type: application/json" -d @- $SLACK_WEBHOOK_URL <<EOF
           {
@@ -52,11 +50,11 @@ jobs:
                   { "type": "mrkdwn", "text": "*Commit:*\n<https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}|${GITHUB_SHA::7}>" }
                 ]
               },
-                            {
+              {
                 "type": "section",
                 "text": {
+                  "type": "mrkdwn",
                   "text": "*Commit Message:*\n${COMMIT_MESSAGE}"
-                  
                 }
               }
             ]
@@ -71,6 +69,7 @@ jobs:
       - name: Notify Slack - Failure
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          COMMIT_MESSAGE: ${{ needs.build.outputs.message }}
         run: |
           curl -X POST -H "Content-Type: application/json" -d @- $SLACK_WEBHOOK_URL <<EOF
           {
@@ -90,6 +89,13 @@ jobs:
                   { "type": "mrkdwn", "text": "*Branch:*\n${GITHUB_REF_NAME}" },
                   { "type": "mrkdwn", "text": "*By:*\n${GITHUB_ACTOR}" }
                 ]
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Commit Message:*\n${COMMIT_MESSAGE}"
+                }
               },
               {
                 "type": "context",
