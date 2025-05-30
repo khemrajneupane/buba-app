@@ -6,10 +6,24 @@ on:
       - main
 
 jobs:
-  notify:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Send Slack Notification
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Simulated Build Step
+        run: |
+          echo "Building..."
+          # Uncomment the next line to simulate a failure
+          # exit 1
+
+  notify-success:
+    needs: build
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Slack - Success
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
@@ -20,38 +34,55 @@ jobs:
                 "type": "header",
                 "text": {
                   "type": "plain_text",
-                  "text": "🚀 New Deployment Initiated!",
+                  "text": "✅ Deployment Succeeded",
                   "emoji": true
                 }
               },
               {
                 "type": "section",
                 "fields": [
-                  {
-                    "type": "mrkdwn",
-                    "text": "*Repository:*\n<https://github.com/${GITHUB_REPOSITORY}|${GITHUB_REPOSITORY}>"
-                  },
-                  {
-                    "type": "mrkdwn",
-                    "text": "*Branch:*\n${GITHUB_REF_NAME}"
-                  },
-                  {
-                    "type": "mrkdwn",
-                    "text": "*Triggered By:*\n${GITHUB_ACTOR}"
-                  },
-                  {
-                    "type": "mrkdwn",
-                    "text": "*Commit:*\n<https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}|${GITHUB_SHA:0:7}>"
-                  }
+                  { "type": "mrkdwn", "text": "*Repo:*\n<https://github.com/${GITHUB_REPOSITORY}|${GITHUB_REPOSITORY}>" },
+                  { "type": "mrkdwn", "text": "*Branch:*\n${GITHUB_REF_NAME}" },
+                  { "type": "mrkdwn", "text": "*By:*\n${GITHUB_ACTOR}" },
+                  { "type": "mrkdwn", "text": "*Commit:*\n<https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}|${GITHUB_SHA::7}>" }
+                ]
+              }
+            ]
+          }
+          EOF
+
+  notify-failure:
+    needs: build
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Slack - Failure
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H "Content-Type: application/json" -d @- $SLACK_WEBHOOK_URL <<EOF
+          {
+            "blocks": [
+              {
+                "type": "header",
+                "text": {
+                  "type": "plain_text",
+                  "text": "❌ Deployment Failed",
+                  "emoji": true
+                }
+              },
+              {
+                "type": "section",
+                "fields": [
+                  { "type": "mrkdwn", "text": "*Repo:*\n<https://github.com/${GITHUB_REPOSITORY}|${GITHUB_REPOSITORY}>" },
+                  { "type": "mrkdwn", "text": "*Branch:*\n${GITHUB_REF_NAME}" },
+                  { "type": "mrkdwn", "text": "*By:*\n${GITHUB_ACTOR}" }
                 ]
               },
               {
                 "type": "context",
                 "elements": [
-                  {
-                    "type": "mrkdwn",
-                    "text": "This is an automated deployment notification from GitHub Actions."
-                  }
+                  { "type": "mrkdwn", "text": "Investigate the failed job in GitHub: <https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}|View Logs>" }
                 ]
               }
             ]
