@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import "./footer.css";
+import "./Footer.css";
 import { ArrowUp } from "lucide-react";
 function Footer() {
   const handleScrollToTop = () => {
