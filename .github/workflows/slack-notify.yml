@@ -27,7 +27,34 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          exit 1
+          curl -X POST -H "Content-Type: application/json" -d @- $SLACK_WEBHOOK_URL <<EOF
+          {
+            "blocks": [
+              {
+                "type": "header",
+                "text": {
+                  "type": "plain_text",
+                  "text": "❌ Deployment Failed",
+                  "emoji": true
+                }
+              },
+              {
+                "type": "section",
+                "fields": [
+                  { "type": "mrkdwn", "text": "*Repo:*\n<https://github.com/${GITHUB_REPOSITORY}|${GITHUB_REPOSITORY}>" },
+                  { "type": "mrkdwn", "text": "*Branch:*\n${GITHUB_REF_NAME}" },
+                  { "type": "mrkdwn", "text": "*By:*\n${GITHUB_ACTOR}" }
+                ]
+              },
+              {
+                "type": "context",
+                "elements": [
+                  { "type": "mrkdwn", "text": "Investigate the failed job in GitHub: <https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}|View Logs>" }
+                ]
+              }
+            ]
+          }
+          EOF
 
   notify-failure:
     needs: build
