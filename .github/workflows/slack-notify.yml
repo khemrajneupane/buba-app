@@ -15,12 +15,42 @@ jobs:
         run: |
           curl -X POST -H 'Content-type: application/json' \
           --data "{
-            \"text\": \"🚀 New deployment triggered for *${GITHUB_REPOSITORY}* on branch *${GITHUB_REF_NAME}*\",
-            \"attachments\": [
+            \"blocks\": [
               {
-                \"color\": \"#2eb886\",
-                \"title\": \"View Repo\",
-                \"title_link\": \"https://github.com/${GITHUB_REPOSITORY}\"
-              }
-            ]
-          }" $SLACK_WEBHOOK_URL
+                \"type\": \"header\",
+                \"text\": {
+                  \"type\": \"plain_text\",
+                  \"text\": \"🚀 New Deployment Initiated!\",
+                  \"emoji\": true
+                }
+              },
+              {
+                \"type\": \"section\",
+                \"fields\": [
+                  {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*Repository:*\n<https://github.com/${GITHUB_REPOSITORY}|${GITHUB_REPOSITORY}>\"
+                  },
+                  {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*Branch:*\n${GITHUB_REF_NAME}\"
+                  },
+                  {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*Triggered By:*\n${GITHUB_ACTOR}\"
+                  },
+                  {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*Commit:*\n<https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}|${GITHUB_SHA:0:7}>\"
+                  }
+                ]
+              },
+              {
+                \"type\": \"context\",
+                \"elements\": [
+                  {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*Time:*\n$(date +'%Y-%m-%d %H:%M:%S')\"
+                  }
+                ]
+                }
