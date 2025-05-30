@@ -16,6 +16,7 @@
     "cloudinary": "^2.6.1",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.15.0",
+    "ioredis": "^5.6.1",
     "lucide-react": "^0.511.0",
     "mongodb": "^6.16.0",
     "mongoose": "^8.14.1",

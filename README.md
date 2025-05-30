@@ -1,23 +1,46 @@
-# Pariwar Hamro — A Family Meetup Gallery & Chat App
+# Buba-App — BubaMemoir
 
-🌐 **Live App**: [https://pariwar-hamro.vercel.app/](https://pariwar-hamro.vercel.app/)
+🌐 **Live App**: [https://ghanashyam-neupane.vercel.app](https://ghanashyam-neupane.vercel.app)
 
 ## 🧠 Motivation
 
-We regularly meet with close family friends, enjoying meals, games, and memorable activities together. Over time, we realized that all the fun photos taken during these gatherings were scattered and unorganized. This app was born to give those memories a permanent, structured home — a place to store, share, and revisit our beautiful moments. Additionally, it adds interactivity through chats and AI, making our digital family space more engaging.
+My father, at 83 years young, has an inspiring passion for technology. Whether he's exploring the internet, drafting chapters of his autobiography, or curating cherished family photos and videos, his enthusiasm for learning and creating is truly remarkable.
+
+Yet, he lacked a dedicated digital space — a personal archive where he could safely preserve, organize, and share his life's work.
+
+This project was born from that need.
+
+I built this platform as a heartfelt gift to him — a secure, cloud-powered space where he can store his writings, manage multimedia content, and revisit his memories with ease. It’s more than just a content management app; it’s a digital legacy hub tailored for someone who proves that the love of learning knows no age.
 
 ---
 
 ## ✨ Features
 
-### 📷 Photo Gallery
+✅ User Authentication with next-auth (JWT-based)
 
-- Upload and view images in an interactive gallery using `react-image-gallery`.
-- Upload via file picker or drag-and-drop.
-- Only logged-in users can upload/delete photos.
-- Image uploads are stored in Cloudinary and associated with user data.
-- Supports image validation (max size: 5MB, types: JPEG, PNG).
-- Smooth UX with real-time error/success notifications using `react-hot-toast`.
+📦 MongoDB Integration using mongoose
+
+⚡ Redis Caching (via Upstash) for faster content delivery
+
+☁️ Cloudinary for image and video uploads
+
+📃 Content CRUD: Create, View, Edit, Delete text and multimedia content
+
+🧠 Cache Invalidation logic for consistency between DB and cache
+
+🌄 Image Management with Cloudinary API
+
+🗃️ Framer Motion for smooth, animated UI interactions
+
+🧭 Bikram-Sambat Date Support with bikram-sambat-js for localized Nepali date handling
+
+🪶 Lucide React icons for a clean and elegant UI
+
+🔐 Role-based Access Control (Admin-only content deletion, etc.)
+
+🧹 Centralized Error Handling using catchAsyncErrors middleware
+
+🌐 API Routes built using Next.js App Router structure
 
 ### 🔐 Authentication
 
@@ -25,22 +48,6 @@ We regularly meet with close family friends, enjoying meals, games, and memorabl
   - `CredentialsProvider` for email/password login
   - `GoogleProvider` for Google login
 - User session is required for uploading images and accessing AI chat.
-
-### 💬 Two Types of Chat
-
-#### 1. Real-Time Socket.io Chat
-
-GitHub Backend Repo: [Socket.io Chat Backend](https://github.com/khemrajneupane/socket.io-live-chat/tree/main/socket-chat-backend)
-
-- Powered by Node.js, Express.js, and Socket.IO
-- Features:
-  - Public and private messaging
-  - Real-time message updates (no refresh)
-  - Optional username registration
-  - Auto-assigned names for guests
-  - Responsive UI with “You” indicator
-  - Smart public/private message fallback
-- Deployed on Render platform
 
 #### 2. OpenAI Chat (AI Assistant)
 
@@ -55,27 +62,28 @@ GitHub Backend Repo: [Chatbot Flask](https://github.com/khemrajneupane/chatbot-f
 
 ## 🛠️ Tech Stack
 
-### Frontend
+    Frontend: Next.js 15 (App Router)
 
-- [Next.js](https://nextjs.org/) (TypeScript)
-- [Bootstrap 5](https://getbootstrap.com/)
-- [React Icons](https://react-icons.github.io/)
-- [React Image Gallery](https://www.npmjs.com/package/react-image-gallery)
-- [Socket.IO Client](https://socket.io/)
-- [React Hot Toast](https://react-hot-toast.com/)
+    Backend: Node.js (API Routes)
 
-### Backend & APIs
+    Database: MongoDB + Mongoose
 
-- [NextAuth.js](https://next-auth.js.org/) for authentication
-- [MongoDB](https://www.mongodb.com/) via Mongoose for user and image data
-- [Cloudinary](https://cloudinary.com/) for image hosting
-- Custom API Routes:
-  - `POST /api/images`: upload image
-  - `DELETE /api/images/:id`: delete image
+    Cache: Redis (Upstash)
+
+    Auth: NextAuth.js
+
+    Cloud Storage: Cloudinary
+
+    UI Enhancements: Framer Motion, Lucide React
+
+    Date Utilities: Bikram Sambat JS
+
+    Styling: Tailwind CSS
+
+    Deployment: Vercel
 
 ### External Chat Backends
 
-- **Socket Chat Backend**: Node.js + Express.js + Socket.IO
 - **OpenAI Chat Backend**: Python + Flask + OpenAI API
 
 ---
@@ -84,28 +92,49 @@ GitHub Backend Repo: [Chatbot Flask](https://github.com/khemrajneupane/chatbot-f
 
 ```json
 "dependencies": {
-  "bcryptjs": "^3.0.2",
-  "bootstrap": "^5.3.6",
-  "cloudinary": "^2.6.1",
-  "mongodb": "^6.16.0",
-  "mongoose": "^8.14.1",
-  "next-auth": "^4.24.11",
-  "next-connect": "^1.0.0",
-  "react-hot-toast": "^2.5.2",
-  "react-icons": "^5.5.0",
-  "react-image-gallery": "^1.4.0",
-  "socket.io-client": "^4.8.1"
-},
-"devDependencies": {
-  "typescript": "^5"
+    "axios": "^1.9.0",
+    "bcryptjs": "^3.0.2",
+    "bikram-sambat-js": "^1.0.2",
+    "bootstrap": "^5.3.6",
+    "cloudinary": "^2.6.1",
+    "date-fns": "^4.1.0",
+    "framer-motion": "^12.15.0",
+    "ioredis": "^5.6.1",
+    "lucide-react": "^0.511.0",
+    "mongodb": "^6.16.0",
+    "mongoose": "^8.14.1",
+    "next": "15.3.1",
+    "next-auth": "^4.24.11",
+    "next-connect": "^1.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-hot-toast": "^2.5.2",
+    "react-icons": "^5.5.0",
+    "react-image-gallery": "^1.4.0",
+    "react-toastify": "^11.0.5",
+    "socket.io-client": "^4.8.1"
 }
 ```
 
 ## 🚀 Getting Started Locally
 
+### Keep following .env.local file
+
+- API_URL=""
+- CLOUDINARY_API_KEY=""
+- CLOUDINARY_API_SECRET=""
+- CLOUDINARY_CLOUD_NAME=""
+- DB_URI=""
+- GOOGLE_CLIENT_ID=""
+- GOOGLE_CLIENT_SECRET=""
+- JWT_SECRET=""
+- NEXTAUTH_SECRET=""
+- NEXTAUTH_URL=""
+- REDIS_URL=""
+
 ```
-git clone https://github.com/your-username/pariwar-hamro.git
-cd pariwar-hamro
+git clone https://github.com/khemrajneupane/buba-app.git
+cd buba-app
 npm install
 npm run dev
 
@@ -113,16 +142,10 @@ npm run dev
 
 ## 🔗 Links
 
-- 🖼️ Live App: https://pariwar-hamro.vercel.app/
+- 🖼️ Live App: https://ghanashyam-neupane.vercel.app//
 
 - 💬 Socket Chat Backend: GitHub Repo
 
 - 🤖 OpenAI Chat Backend: GitHub Repo
 
-## 🙏 Acknowledgements
-
-Thanks to open-source libraries, APIs, and family & friends who inspired this fun app. "This currently a private social hub built for families or close friend groups to share memories, chat, and interact — all in a secure and cozy environment."
-
----
-
-# Happy coding and nostalgic sharing!
+# Happy coding!
