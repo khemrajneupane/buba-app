@@ -60,7 +60,7 @@ GitHub Backend Repo: [Chatbot Flask](https://github.com/khemrajneupane/chatbot-f
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stacks
 
     Frontend: Next.js 15 (App Router)
 
