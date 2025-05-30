@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      commit_message: ${{ steps.get_commit.outputs.message }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -28,6 +30,7 @@ jobs:
       - name: Notify Slack - Success
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          COMMIT_MESSAGE: ${{ needs.build.outputs.commit_message }}
         run: |
           curl -X POST -H "Content-Type: application/json" -d @- $SLACK_WEBHOOK_URL <<EOF
           {
@@ -52,8 +55,8 @@ jobs:
                             {
                 "type": "section",
                 "text": {
-                  "type": "mrkdwn",
-                  "text": "*Commit Message:*\n${{ steps.get_commit.outputs.message }}"
+                  "text": "*Commit Message:*\n${COMMIT_MESSAGE}"
+                  
                 }
               }
             ]
