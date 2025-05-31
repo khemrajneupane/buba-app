@@ -134,30 +134,35 @@ const Header = () => {
                   <Link
                     href="/about"
                     className="btn btn-success btn-sm rounded-pill"
+                    onClick={() => setIsMenuDropdownVisible((prev) => !prev)}
                   >
                     बारेमा
                   </Link>
                   <Link
                     href="/all-contents"
                     className="btn btn-success btn-sm rounded-pill"
+                    onClick={() => setIsMenuDropdownVisible((prev) => !prev)}
                   >
                     संस्मरण
                   </Link>
                   <Link
                     href="/content-upload"
                     className="btn btn-success btn-sm rounded-pill"
+                    onClick={() => setIsMenuDropdownVisible((prev) => !prev)}
                   >
                     अपलोड
                   </Link>
                   <Link
                     href="/image-upload"
                     className="btn btn-success btn-sm rounded-pill"
+                    onClick={() => setIsMenuDropdownVisible((prev) => !prev)}
                   >
                     फोटो अपलोड
                   </Link>
                   <Link
                     href="/"
                     className="btn btn-success btn-sm rounded-pill"
+                    onClick={() => setIsMenuDropdownVisible((prev) => !prev)}
                   >
                     एल्बम
                   </Link>

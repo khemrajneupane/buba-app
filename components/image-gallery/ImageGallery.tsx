@@ -39,7 +39,6 @@ const Gallery = () => {
         toast.success("image deleated");
       } else {
         toast.error(res?.error);
-        console.log("imagegallery", res);
         //throw new Error(res?.error);
       }
     } catch (error) {

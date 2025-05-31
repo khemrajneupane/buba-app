@@ -4,9 +4,12 @@ import { useEffect, useState } from "react";
 import { ADToBS } from "bikram-sambat-js";
 import { motion, AnimatePresence, Reorder } from "framer-motion";
 import { useSession } from "next-auth/react";
-import { FiX, FiTrash2, FiMove } from "react-icons/fi";
+import { FiX, FiTrash2, FiMove, FiEdit } from "react-icons/fi";
 import "./ListAllContents.css";
 import toast from "react-hot-toast";
+import { Upload } from "lucide-react";
+import ContentUploadForm from "../contents/ContentEditor";
+//import ContentUploadForm from "./ContentUploadForm";
 
 interface Content {
   _id: string;
@@ -24,6 +27,7 @@ export default function ListAllContents() {
   const [contents, setContents] = useState<Content[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedContent, setSelectedContent] = useState<Content | null>(null);
+  const [editingContent, setEditingContent] = useState<Content | null>(null);
   const { data } = useSession();
 
   useEffect(() => {
@@ -60,12 +64,27 @@ export default function ListAllContents() {
 
       setContents(contents.filter((content) => content._id !== id));
       setSelectedContent(null);
+      setEditingContent(null);
       toast.success("सफलतापूर्वक मेटियो");
     } catch (error) {
       toast.error("अनधिकृत पहुँच !!");
     }
   };
 
+  const handleUpdateSuccess = (updatedContent: Content) => {
+    const confirmed = window.confirm(
+      `के तपाईं ${updatedContent.title} अद्यावधिक गर्न निश्चित हुनुहुन्छ?`
+    );
+    if (!confirmed) return;
+
+    setContents(
+      contents.map((c) => (c?._id === updatedContent._id ? updatedContent : c))
+    );
+    setEditingContent(null);
+    setSelectedContent(updatedContent);
+    toast.success("सामग्री सफलतापूर्वक अद्यावधिक गरियो");
+  };
+  console.log("editingContent", editingContent);
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -96,7 +115,7 @@ export default function ListAllContents() {
         ) : (
           contents.map((content) => (
             <Reorder.Item
-              key={content._id}
+              key={content?._id}
               value={content}
               whileDrag={{
                 scale: 1.05,
@@ -127,7 +146,7 @@ export default function ListAllContents() {
                   onClick={() => setSelectedContent(content)}
                 >
                   <div className="card-header">
-                    {content.title ? (
+                    {content?.title ? (
                       <h2 className="content-title">{content.title}</h2>
                     ) : (
                       <h2 className="content-title">एउटा कथा !!</h2>
@@ -174,12 +193,20 @@ export default function ListAllContents() {
                 {
                   // @ts-ignore
                   data?.user?.role === "admin" && (
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDelete(selectedContent._id)}
-                    >
-                      <FiTrash2 />
-                    </button>
+                    <>
+                      <button
+                        className="edit-btn"
+                        onClick={() => setEditingContent(selectedContent)}
+                      >
+                        <FiEdit />
+                      </button>
+                      <button
+                        className="delete-btn"
+                        onClick={() => handleDelete(selectedContent._id)}
+                      >
+                        <FiTrash2 />
+                      </button>
+                    </>
                   )
                 }
                 <h2>{selectedContent.title || "एउटा कथा !!"}</h2>
@@ -213,6 +240,42 @@ export default function ListAllContents() {
                   </p>
                 ))}
               </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Edit Content Modal */}
+      <AnimatePresence>
+        {editingContent && (
+          <motion.div
+            className="edit-modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="edit-modal"
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 20 }}
+            >
+              <button
+                className="close-btn"
+                onClick={() => setEditingContent(null)}
+              >
+                <FiX />
+              </button>
+              <ContentUploadForm
+                contentId={editingContent?._id}
+                initialData={{
+                  title: editingContent.title || "",
+                  description: editingContent.description,
+                }}
+                onSuccess={handleUpdateSuccess}
+                onClose={() => setEditingContent(null)}
+              />
             </motion.div>
           </motion.div>
         )}

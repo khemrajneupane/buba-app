@@ -117,3 +117,59 @@ export const deleteContent = catchAsyncErrors(
     }
   }
 );
+
+// Update a content
+export const updateContent = catchAsyncErrors(
+  async (req: NextRequest, { params }: { params: { id: string } }) => {
+    const session = await getToken({ req });
+
+    try {
+      await dbConnect();
+
+      const contents = await Contents.findById(params.id);
+      if (!contents) {
+        return NextResponse.json(
+          { error: "Contents not found" },
+          { status: 404 }
+        );
+      }
+
+      if (!session?.name) throw new Error("Unauthorized");
+      //@ts-ignore
+      if (session?.user?.role !== "admin") throw new Error("Unauthorized");
+
+      const body = await req.json();
+      const { title, description } = body;
+
+      // Ensure at least one field is being updated
+      if (!title && !description) {
+        return NextResponse.json(
+          { error: "No valid fields provided for update" },
+          { status: 400 }
+        );
+      }
+
+      if (title) contents.title = title;
+      if (description) contents.description = description;
+      contents.updatedAt = new Date();
+
+      await contents.save();
+
+      // Invalidate/update cache
+      const cacheKey = `all_contents:${params.id}`;
+      await redis.del(cacheKey);
+      await redis.del("all_contents");
+
+      return NextResponse.json({
+        success: true,
+        message: "Contents updated successfully",
+        contents,
+      });
+    } catch (error: any) {
+      return NextResponse.json(
+        { error: error.message || "Update failed" },
+        { status: 500 }
+      );
+    }
+  }
+);

@@ -24,7 +24,6 @@ const UploadImages = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (!selectedFile) return;
-    console.log("selectedFile", selectedFile);
     // Validate file type
     if (!selectedFile.type.match("image.*")) {
       toast.error("Please select an image file (JPEG, PNG, etc.)");
@@ -77,7 +76,6 @@ const UploadImages = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        console.log("upload error", data);
         toast.error(data.message || data.error || "Failed to upload image");
         return;
         //throw new Error("Please login to upload");

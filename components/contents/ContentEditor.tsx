@@ -6,13 +6,28 @@ import { toast } from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import "./contentEditor.css";
 
-export default function ContentUploadForm() {
-  const router = useRouter();
+interface ContentFormProps {
+  contentId?: string;
+  initialData?: {
+    title: string;
+    description: string;
+  };
+  onSuccess?: (updatedContent: any) => void;
+  onClose?: () => void;
+}
 
+export default function ContentUploadForm({
+  contentId,
+  initialData,
+  onSuccess,
+  onClose,
+}: ContentFormProps) {
+  const router = useRouter();
   const { data } = useSession();
+
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
+    title: initialData?.title || "",
+    description: initialData?.description || "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -56,30 +71,55 @@ export default function ContentUploadForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/contents", {
-        method: "POST",
+      const apiUrl = contentId ? `/api/contents/${contentId}` : "/api/contents";
+      const method = contentId ? "PUT" : "POST";
+
+      const response = await fetch(apiUrl, {
+        method,
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ title, description }),
       });
 
-      const resContents = await response.json();
+      const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(
-          resContents?.error || "सामग्री सुरक्षित गर्न असफल भयो।"
-        );
+        throw new Error(result?.error || "सामग्री सुरक्षित गर्न असफल भयो।");
       }
 
+      // Handle your specific API response structure
+      if (!result.success) {
+        throw new Error(result.message || "अनपेक्षित प्रतिक्रिया");
+      }
+
+      // Get the updated content from the response
+      const updatedContent = result.contents || {
+        _id: contentId,
+        title,
+        description,
+      };
+
       toast.success(
-        resContents.message || "तपाईंको कथा सफलतापूर्वक सुरक्षित गरिएको छ!!"
+        contentId
+          ? "कथा सफलतापूर्वक अद्यावधिक गरियो!"
+          : "तपाईंको कथा सफलतापूर्वक सुरक्षित गरिएको छ!!"
       );
 
-      setFormData({ title: "", description: "" });
-      router.push("/all-contents");
-      // router.refresh(); // Uncomment if needed
+      if (!contentId) {
+        setFormData({ title: "", description: "" });
+      }
+
+      if (onSuccess) {
+        onSuccess(updatedContent);
+      } else {
+        router.push("/all-contents");
+        router.refresh();
+      }
+
+      if (onClose) onClose();
     } catch (error: any) {
+      console.error("Submission error:", error);
       toast.error(
         error.message || "केही गलत भयो। कृपया फेरि प्रयास गर्नुहोस्।"
       );
@@ -90,7 +130,9 @@ export default function ContentUploadForm() {
 
   return (
     <div className="content-form-container">
-      <h2 className="form-title">तपाईंको कथा साझा गर्नुहोस्</h2>
+      <h2 className="form-title">
+        {contentId ? "कथा सम्पादन गर्नुहोस्" : "तपाईंको कथा साझा गर्नुहोस्"}
+      </h2>
 
       <form onSubmit={handleSubmit} className="content-form">
         <div>
@@ -128,7 +170,11 @@ export default function ContentUploadForm() {
               isSubmitting || !formData.description ? "button-disabled" : ""
             }`}
           >
-            {isSubmitting ? "सेभ गर्दैछ..." : "कथा सेभ गर्नुहोस्"}
+            {isSubmitting
+              ? "सेभ गर्दैछ..."
+              : contentId
+                ? "अद्यावधिक गर्नुहोस्"
+                : "कथा सेभ गर्नुहोस्"}
           </button>
         </div>
       </form>
