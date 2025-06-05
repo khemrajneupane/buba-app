@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import { FiX, FiTrash2, FiMove, FiEdit } from "react-icons/fi";
 import "./ListAllContents.css";
 import toast from "react-hot-toast";
-import { Upload } from "lucide-react";
+import { Flower2, Upload } from "lucide-react";
 import ContentUploadForm from "../contents/ContentEditor";
 //import ContentUploadForm from "./ContentUploadForm";
 
@@ -29,7 +29,9 @@ export default function ListAllContents() {
   const [selectedContent, setSelectedContent] = useState<Content | null>(null);
   const [editingContent, setEditingContent] = useState<Content | null>(null);
   const { data } = useSession();
+  const [showTooltip, setShowTooltip] = useState(false);
 
+  const toggleTooltip = () => setShowTooltip((prev) => !prev);
   useEffect(() => {
     const fetchContents = async () => {
       try {
@@ -84,7 +86,9 @@ export default function ListAllContents() {
     setSelectedContent(updatedContent);
     toast.success("सामग्री सफलतापूर्वक अद्यावधिक गरियो");
   };
-  console.log("editingContent", editingContent);
+  const textColors = ["#1a1a1a", "#004488", "#007744"]; // dark, blue, green
+  const bgColors = ["#fff8f0", "#f0f8ff", "#f0fff5"]; // peach, light-blue, light-green
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -113,15 +117,8 @@ export default function ListAllContents() {
             <p>कुनै कथा उपलब्ध छैन</p>
           </div>
         ) : (
-          contents.map((content) => (
-            <Reorder.Item
-              key={content?._id}
-              value={content}
-              whileDrag={{
-                scale: 1.05,
-                boxShadow: "0 10px 20px rgba(0,0,0,0.2)",
-              }}
-            >
+          contents.map((content, i) => (
+            <div key={content?._id}>
               <motion.article
                 className="content-card"
                 initial={{ opacity: 0, y: 50 }}
@@ -138,35 +135,74 @@ export default function ListAllContents() {
                 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <div className="drag-handle">
-                  <FiMove />
-                </div>
                 <div
                   className="card-content"
+                  key={content?._id}
                   onClick={() => setSelectedContent(content)}
+                  style={{
+                    color: textColors[i % textColors.length],
+                    backgroundColor: bgColors[i % bgColors.length],
+                  }}
                 >
                   <div className="card-header">
                     {content?.title ? (
-                      <h2 className="content-title">{content.title}</h2>
+                      <h2
+                        className="content-title"
+                        style={{
+                          color: textColors[i % textColors.length],
+                          backgroundColor: bgColors[i % bgColors.length],
+                        }}
+                      >
+                        {content.title}
+                      </h2>
                     ) : (
                       <h2 className="content-title">एउटा कथा !!</h2>
                     )}
                   </div>
-                  <div className="content-preview">
+
+                  <div
+                    className="content-preview"
+                    style={{
+                      color: textColors[i % textColors.length],
+                      backgroundColor: bgColors[i % bgColors.length],
+                    }}
+                  >
                     {content.description.split("\n")[0].substring(0, 100)}
                     {content.description.length > 100 && "..."}
                   </div>
-                  <div className="card-footer">
-                    <span className="content-meta">
+
+                  <div
+                    className="card-footer"
+                    style={{
+                      color: textColors[i % textColors.length],
+                      backgroundColor: bgColors[i % bgColors.length],
+                    }}
+                  >
+                    <span
+                      className="content-meta"
+                      style={{
+                        color: textColors[i % textColors.length],
+                        backgroundColor: bgColors[i % bgColors.length],
+                      }}
+                    >
                       {ADToBS(
                         new Date(content.createdAt).toISOString().split("T")[0]
                       )}
                     </span>
-                    <span className="content-author">{content.user.name}</span>
+                    {" · "}
+                    <span
+                      className="content-author"
+                      style={{
+                        color: textColors[i % textColors.length],
+                        backgroundColor: bgColors[i % bgColors.length],
+                      }}
+                    >
+                      {content.user.name}
+                    </span>
                   </div>
                 </div>
               </motion.article>
-            </Reorder.Item>
+            </div>
           ))
         )}
       </Reorder.Group>
@@ -195,21 +231,42 @@ export default function ListAllContents() {
                   data?.user?.role === "admin" && (
                     <>
                       <button
+                        className="close-btn delete-btn-contents"
+                        onClick={() => handleDelete(selectedContent._id)}
+                      >
+                        <FiTrash2 />
+                      </button>
+                      <button
                         className="edit-btn"
                         onClick={() => setEditingContent(selectedContent)}
                       >
                         <FiEdit />
                       </button>
-                      <button
-                        className="delete-btn"
-                        onClick={() => handleDelete(selectedContent._id)}
-                      >
-                        <FiTrash2 />
-                      </button>
                     </>
                   )
                 }
-                <h2>{selectedContent.title || "एउटा कथा !!"}</h2>
+                <div
+                  className="headline-wrapper"
+                  onClick={toggleTooltip}
+                  onMouseEnter={() => setShowTooltip(true)}
+                  onMouseLeave={() => setShowTooltip(false)}
+                >
+                  <h1 className="headlines">
+                    {(selectedContent.title || "एउटा कथा !!").slice(0, 25) +
+                      ((selectedContent.title
+                        ? selectedContent.title.length
+                        : 0) > 25
+                        ? "..."
+                        : "")}
+                  </h1>
+
+                  {showTooltip && (
+                    <div className="cloud-tooltip">
+                      {selectedContent.title || "एउटा कथा !!"}
+                    </div>
+                  )}
+                </div>
+
                 <div className="modal-actions">
                   <button
                     className="close-btn"
@@ -219,23 +276,36 @@ export default function ListAllContents() {
                   </button>
                 </div>
               </div>
-
               <div className="modal-meta">
-                <span className="content-date">
-                  {ADToBS(
-                    new Date(selectedContent.createdAt)
-                      .toISOString()
-                      .split("T")[0]
-                  )}
-                </span>
                 <span className="content-author">
-                  {selectedContent.user.name} द्वारा
+                  {selectedContent.user.name} द्वारा मिति
                 </span>
+                {ADToBS(
+                  new Date(selectedContent.createdAt)
+                    .toISOString()
+                    .split("T")[0]
+                )}
+                <span>मा अपलोड गरिएको</span>
               </div>
-
+              <div className="modal-image">
+                <Flower2 />
+                <Flower2 />
+                <Flower2 />
+                <Flower2 />
+              </div>
               <div className="modal-content">
                 {selectedContent.description.split("\n").map((paragraph, i) => (
-                  <p key={i} className="content-paragraph">
+                  <p
+                    key={i}
+                    className="content-paragraph"
+                    style={{
+                      color: textColors[i % textColors.length],
+                      backgroundColor: bgColors[i % bgColors.length],
+                      padding: "1rem",
+                      borderRadius: "8px",
+                      marginBottom: "0.75rem",
+                    }}
+                  >
                     {paragraph}
                   </p>
                 ))}

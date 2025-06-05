@@ -115,7 +115,7 @@ const Header = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
+  console.log("userimage", data?.user?.image);
   return (
     <header className="header bg-primary text-white shadow-sm sticky-top py-3">
       <div className="container-fluid">
@@ -126,7 +126,7 @@ const Header = () => {
               className="btn btn-light rounded-pill px-3 py-1 fw-bold"
               onClick={() => setIsMenuDropdownVisible((prev) => !prev)}
             >
-              हाम्रो परिवार {data?.user?.name ? data.user.name : ""}
+              {data?.user?.name ? data.user.name : "हाम्रो परिवार"}
             </button>
             {isMenuDropdownVisible && (
               <div className="position-absolute start-0 mt-2 bg-white text-dark rounded shadow-lg p-3 z-3">

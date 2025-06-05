@@ -1,23 +1,7 @@
-:root {
-  --primary-color: #2c3e50;
-  --secondary-color: #34495e;
-  --text-color: #333;
-  --light-text: #7f8c8d;
-  --background: #f5f7fa;
-  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --card-hover-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-}
-
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-
-body {
-  font-family: "Noto Sans Devanagari", "Roboto", sans-serif;
-  background-color: var(--background);
-  color: var(--text-color);
 }
 
 .content-gallery {
@@ -37,14 +21,14 @@ body {
 
 .gallery-header h1 {
   font-size: clamp(1.8rem, 4vw, 2.5rem);
-  color: var(--primary-color);
+  color: white;
   margin-bottom: 0.5rem;
   line-height: 1.3;
 }
 
 .gallery-header p {
   font-size: clamp(1rem, 2vw, 1.2rem);
-  color: var(--light-text);
+  color: white;
 }
 
 .contents-container {
@@ -57,7 +41,6 @@ body {
 }
 
 .content-card {
-  background: white;
   border-radius: 12px;
   cursor: pointer;
   box-shadow: var(--card-shadow);
@@ -75,7 +58,7 @@ body {
   justify-content: center;
   background: rgba(0, 0, 0, 0.03);
   cursor: grab;
-  color: var(--light-text);
+  background-color: #9d50bb;
   transition: all 0.2s;
 }
 
@@ -85,23 +68,26 @@ body {
 
 .drag-handle:hover {
   background: rgba(0, 0, 0, 0.05);
-  color: var(--primary-color);
+  color: rgb(27, 4, 4);
 }
 
 .card-content {
   padding: 1.5rem;
   flex-grow: 1;
+  background-color: #9d50bb;
+  text-align: center;
 }
 
 .content-title {
   font-size: clamp(1.2rem, 2vw, 1.4rem);
-  color: var(--primary-color);
+  color: white;
   margin: 0 0 1rem 0;
   line-height: 1.4;
+  text-align: center;
 }
 
 .content-preview {
-  color: var(--secondary-color);
+  color: white;
   margin-bottom: 1rem;
   line-height: 1.6;
   font-size: clamp(0.9rem, 1.5vw, 1rem);
@@ -109,22 +95,23 @@ body {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  padding: 5px;
 }
 
 .card-footer {
   display: flex;
   justify-content: space-between;
   font-size: 0.85rem;
-  color: var(--light-text);
+  color: rgb(245, 218, 218);
   margin-top: auto;
-  padding-top: 0.5rem;
+  padding: 5px;
   border-top: 1px solid #eee;
 }
 
 .empty-state {
   text-align: center;
   padding: 2rem;
-  color: var(--light-text);
+  color: rgb(234, 228, 228);
   font-size: 1.2rem;
 }
 
@@ -144,7 +131,6 @@ body {
 }
 
 .content-modal {
-  background: white;
   border-radius: 12px;
   max-width: min(800px, 95vw);
   width: 100%;
@@ -161,32 +147,43 @@ body {
   align-items: flex-start;
   margin-bottom: 1rem;
   gap: 1rem;
-  border-bottom: 2px solid blue;
+  border-bottom: 1px solid #ecf0f1;
+  padding-bottom: 0.5rem;
+  background-color: rgba(17, 104, 181, 0.8);
+
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.modal-header h2 {
-  font-size: clamp(1.4rem, 3vw, 1.8rem);
-  color: var(--primary-color);
+.modal-header h1 {
+  font-size: 1.5rem;
+  color: purple;
   margin: 0;
   line-height: 1.3;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
 }
 
 .modal-actions {
   display: flex;
   gap: 2rem;
 }
-.delete-btn {
-  position: relative;
-  bottom: 100%;
+.delete-btn-contents {
+  position: absolute;
+  top: 0;
   left: 0;
+  color: red;
+}
+.close-btn {
+  color: rgb(197, 183, 183);
 }
 .close-btn,
-.delete-btn {
-  background: none;
+.delete-btn-contents {
+  background-color: rgba(239, 224, 223, 0.1);
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: var(--light-text);
+
   transition: color 0.2s;
   padding: 0.25rem;
   border-radius: 50%;
@@ -194,8 +191,9 @@ body {
 }
 
 .close-btn:hover {
-  color: #e74c3c;
-  background: rgba(231, 76, 60, 0.1);
+  color: red;
+
+  background-color: rgb(234, 187, 187);
 }
 
 .delete-btn:hover {
@@ -206,11 +204,20 @@ body {
 .modal-meta {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
-  color: var(--light-text);
+  color: purple;
   font-size: 0.9rem;
+  border: 2px solid rgb(216, 243, 216);
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.4;
 }
 
 .modal-content {
@@ -219,27 +226,82 @@ body {
 }
 
 .content-paragraph {
-  margin-bottom: 1rem;
+  padding-top: 1rem;
   font-size: clamp(1rem, 1.2vw, 1.1rem);
-  color: #000202;
+  color: rgb(237, 237, 248);
+}
+
+.modal-image {
+  display: flex;
+  color: #4caf50 !important;
+  padding: 1rem;
 }
 
 .gallery-footer {
   text-align: center;
-  color: var(--light-text);
+  color: purple;
   padding: 2rem 1rem 1rem;
   border-top: 1px solid #ecf0f1;
   margin-top: auto;
   font-size: 0.9rem;
 }
+.headline-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.cloud-tooltip {
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  color: #333;
+  padding: 15px 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  width: 100%;
+  z-index: 1000;
+}
+
+.headline-wrapper:hover .cloud-tooltip {
+  display: inline-flex;
+  color: black;
+  background-color: rgb(153, 153, 189);
+  min-width: 100%;
+}
+
+/* Optional speech-bubble tail */
+.cloud-tooltip::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  transform: translateX(-90%) rotate(50deg);
+  width: 14px;
+  height: 14px;
+  background: white;
+  box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+  z-index: 0;
+  background-color: rgb(153, 153, 189);
+
+  overflow: hidden;
+}
 
 @media (max-width: 768px) {
   .contents-container {
-    padding: 1rem;
+    padding: 0;
+    width: 100%;
   }
-
+  .content-modal-overlay {
+    padding: 0;
+  }
   .content-card {
     flex-direction: column;
+    padding: 0;
+    width: 100%;
   }
 
   .drag-handle {
@@ -249,22 +311,50 @@ body {
   }
 
   .card-content {
-    padding: 1.25rem;
+    padding: 0;
+    width: 100%;
   }
 
   .content-modal {
-    padding: 1.25rem;
+    margin-top: 7rem;
+    padding: 0;
+  }
+  .modal-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .close-btn,
+  .delete-btn,
+  .edit-btn {
+    padding: 0.5rem;
+    font-size: 1.2rem;
+  }
+  .headlines {
+    display: flex;
+    max-width: 300px;
+    width: 100%;
+    text-align: center;
+    font-size: 0.1rem;
+    line-height: 1.4;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
   }
 }
 
 @media (max-width: 480px) {
   .content-gallery {
-    padding: 0.5rem;
+    padding: 0;
   }
 
   .modal-header {
-    flex-direction: column;
-    gap: 0.5rem;
   }
 
   .modal-actions {
