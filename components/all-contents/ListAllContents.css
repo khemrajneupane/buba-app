@@ -381,9 +381,9 @@
 
 .edit-modal {
   background: white;
-  padding: 2rem;
+  padding: 5px;
   border-radius: 8px;
-  width: 90%;
+  width: 100%;
   max-width: 700px;
   max-height: 90vh;
   overflow-y: auto;

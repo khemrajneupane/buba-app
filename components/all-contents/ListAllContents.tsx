@@ -48,9 +48,9 @@ export default function ListAllContents() {
     fetchContents();
   }, []);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: string, selectedContent: Content) => {
     const confirmed = window.confirm(
-      "के तपाईं यो वस्तु मेटाउन निश्चित हुनुहुन्छ?"
+      `के तपाईं "${selectedContent.title}" मेटाउन निश्चित हुनुहुन्छ?`
     );
     if (!confirmed) return;
 
@@ -229,10 +229,12 @@ export default function ListAllContents() {
                 {
                   // @ts-ignore
                   data?.user?.role === "admin" && (
-                    <>
+                    <div style={{ display: "flex", gap: "5rem" }}>
                       <button
-                        className="close-btn delete-btn-contents"
-                        onClick={() => handleDelete(selectedContent._id)}
+                        className="close-btn"
+                        onClick={() =>
+                          handleDelete(selectedContent._id, selectedContent)
+                        }
                       >
                         <FiTrash2 />
                       </button>
@@ -242,7 +244,7 @@ export default function ListAllContents() {
                       >
                         <FiEdit />
                       </button>
-                    </>
+                    </div>
                   )
                 }
                 <div
