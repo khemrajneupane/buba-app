@@ -128,6 +128,12 @@ const Header = () => {
             >
               {data?.user?.name ? data.user.name : "हाम्रो परिवार"}
             </button>
+            <Link
+              href="/quiz"
+              className="btn btn-success btn-sm rounded-pill ms-2 mt-sm-3 mt-md-0"
+            >
+              Play Quiz
+            </Link>
             {isMenuDropdownVisible && (
               <div className="position-absolute start-0 mt-2 bg-white text-dark rounded shadow-lg p-3 z-3">
                 <div className="d-flex flex-column gap-2">

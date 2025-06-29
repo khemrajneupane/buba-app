@@ -96,7 +96,17 @@ export default function ListAllContents() {
       </div>
     );
   }
+  const formatTextToHTML = (text: string) => {
+    // Split into paragraphs (double newlines)
+    const paragraphs = text.split(/\n\s*\n/).filter((p) => p.trim());
 
+    // Wrap each paragraph in <p> tags
+    const htmlContent = paragraphs
+      .map((p) => `<p>${p.replace(/\n/g, "<br />")}</p>`)
+      .join("");
+
+    return { __html: htmlContent };
+  };
   return (
     <div className="content-gallery">
       {/* Traditional Nepali Header */}
@@ -296,21 +306,22 @@ export default function ListAllContents() {
                 <Flower2 />
               </div>
               <div className="modal-content">
-                {selectedContent.description.split("\n").map((paragraph, i) => (
-                  <p
-                    key={i}
-                    className="content-paragraph"
-                    style={{
-                      color: textColors[i % textColors.length],
-                      backgroundColor: bgColors[i % bgColors.length],
-                      padding: "1rem",
-                      borderRadius: "8px",
-                      marginBottom: "0.75rem",
-                    }}
-                  >
-                    {paragraph}
-                  </p>
-                ))}
+                {selectedContent.description
+                  .split("\n\n")
+                  .map((paragraph, i) => (
+                    <p
+                      key={i}
+                      className="content-paragraph"
+                      style={{
+                        color: textColors[i % textColors.length],
+                        backgroundColor: bgColors[i % bgColors.length],
+                        padding: "1rem",
+                        borderRadius: "8px",
+                        marginBottom: "0.75rem",
+                      }}
+                      dangerouslySetInnerHTML={formatTextToHTML(paragraph)}
+                    />
+                  ))}
               </div>
             </motion.div>
           </motion.div>

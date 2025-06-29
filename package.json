@@ -13,6 +13,7 @@
     "bcryptjs": "^3.0.2",
     "bikram-sambat-js": "^1.0.2",
     "bootstrap": "^5.3.6",
+    "canvas-confetti": "^1.9.3",
     "cloudinary": "^2.6.1",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.15.0",
@@ -32,13 +33,15 @@
     "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.8",
+    "@tailwindcss/postcss": "^4.1.11",
+    "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.4",
-    "tailwindcss": "^4.1.8",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11",
     "typescript": "^5"
-  }
+  },
+  "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac"
 }
