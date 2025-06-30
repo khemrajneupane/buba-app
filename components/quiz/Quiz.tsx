@@ -17,7 +17,7 @@ export default function Quiz() {
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [quizCompleted, setQuizCompleted] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(30);
+  const [timeLeft, setTimeLeft] = useState(60);
   const [timerActive, setTimerActive] = useState(true);
   const [attemptedQuestions, setAttemptedQuestions] = useState<
     AttemptedQuestion[]
@@ -617,7 +617,17 @@ export default function Quiz() {
     return () => clearInterval(timer);
   }, [currentQuestionIndex, timerActive, quizCompleted]);
 
-  const currentQuestion = quizQuestions[currentQuestionIndex];
+  const [questions, setQuestions] = useState<Question[]>([]);
+  useEffect(() => {
+    // Shuffle questions when component mounts
+    const shuffleArray = (array: Question[]) => {
+      return array.sort(() => Math.random() - 0.5);
+    };
+
+    setQuestions(shuffleArray(quizQuestions));
+  }, []);
+
+  const currentQuestion = questions[currentQuestionIndex];
   const isCorrect = selectedAnswer === currentQuestion?.correctAnswer;
   const isLastQuestion = currentQuestionIndex === quizQuestions.length - 1;
 
@@ -631,13 +641,13 @@ export default function Quiz() {
       {
         ...currentQuestion,
         options: [], // clear options as unnecessary for result display
-        explanation: currentQuestion.explanation,
-        correctAnswer: currentQuestion.correctAnswer,
+        explanation: currentQuestion?.explanation,
+        correctAnswer: currentQuestion?.correctAnswer,
         selectedAnswer: answer,
       },
     ]);
 
-    if (answer === currentQuestion.correctAnswer) {
+    if (answer === currentQuestion?.correctAnswer) {
       setScore(score + 1);
       confetti({
         particleCount: 100,
@@ -741,15 +751,15 @@ export default function Quiz() {
           </div>
         </div>
 
-        <h2 className="quiz-question">{currentQuestion.question}</h2>
+        <h2 className="quiz-question">{currentQuestion?.question}</h2>
 
         <div className="quiz-options">
-          {currentQuestion.options.map((option, index) => {
+          {currentQuestion?.options.map((option, index) => {
             const isSelected = selectedAnswer === option;
             let optionClass = "option-button";
 
             if (selectedAnswer) {
-              if (option === currentQuestion.correctAnswer) {
+              if (option === currentQuestion?.correctAnswer) {
                 optionClass += " correct";
               } else if (isSelected && !isCorrect) {
                 optionClass += " incorrect";
@@ -777,11 +787,11 @@ export default function Quiz() {
               <div>
                 <p className="feedback-incorrect">❌ गलत</p>
                 <p className="feedback-correct-answer">
-                  सही उत्तर हो:: <span>{currentQuestion.correctAnswer}</span>
+                  सही उत्तर हो:: <span>{currentQuestion?.correctAnswer}</span>
                 </p>
-                {currentQuestion.explanation && (
+                {currentQuestion?.explanation && (
                   <p className="feedback-explanation">
-                    {currentQuestion.explanation}
+                    {currentQuestion?.explanation}
                   </p>
                 )}
               </div>

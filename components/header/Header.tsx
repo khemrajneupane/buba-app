@@ -121,19 +121,14 @@ const Header = () => {
       <div className="container-fluid">
         <div className="d-flex justify-content-between align-items-center">
           {/* हाम्रो परिवार button */}
-          <div className="position-relative me-3" ref={menuDropdownRef}>
+          <div className="position-relative me-1" ref={menuDropdownRef}>
             <button
               className="btn btn-light rounded-pill px-3 py-1 fw-bold"
               onClick={() => setIsMenuDropdownVisible((prev) => !prev)}
             >
               {data?.user?.name ? data.user.name : "हाम्रो परिवार"}
             </button>
-            <Link
-              href="/quiz"
-              className="btn btn-success btn-sm rounded-pill ms-2 mt-sm-3 mt-md-0"
-            >
-              Play Quiz
-            </Link>
+
             {isMenuDropdownVisible && (
               <div className="position-absolute start-0 mt-2 bg-white text-dark rounded shadow-lg p-3 z-3">
                 <div className="d-flex flex-column gap-2">
@@ -176,7 +171,12 @@ const Header = () => {
               </div>
             )}
           </div>
-
+          <Link
+            href="/quiz"
+            className="bg-white text-primary rounded-pill mx-3 my-2 px-3 py-2 fw-bold"
+          >
+            खेल्नुहोस्
+          </Link>
           {/* Family Members Dropdown */}
           <div className="position-relative me-3">
             {!data?.user ? (
