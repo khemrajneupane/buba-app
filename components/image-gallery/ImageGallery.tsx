@@ -136,10 +136,11 @@ const Gallery = () => {
                   key={vdo._id}
                   className="relative flex flex-col items-center bg-gray-100 p-4 rounded-lg shadow"
                 >
-                  <video controls className="w-full">
+                  <audio controls className="w-full">
                     <source src={vdo.url} type="audio/mp4" />
                     Your browser does not support the audio element.
-                  </video>
+                  </audio>
+                  <hr />
                 </div>
               ))}
             </div>
