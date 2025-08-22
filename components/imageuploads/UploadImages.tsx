@@ -25,9 +25,12 @@ const UploadImages = () => {
     const selectedFile = e.target.files?.[0];
     if (!selectedFile) return;
     // Validate file type
-    if (!selectedFile.type.match("image.*")) {
-      toast.error("Please select an image file (JPEG, PNG, etc.)");
-      //setError("Please select an image file (JPEG, PNG, etc.)");
+    if (
+      !selectedFile.type.match(/^image\//) &&
+      //!selectedFile.type.match(/^video\//) &&
+      !selectedFile.type.match(/^audio\//)
+    ) {
+      toast.error("Please select an image, video, or audio file");
       return;
     }
 
@@ -138,9 +141,11 @@ const UploadImages = () => {
           )}
           <input
             type="file"
+            //accept="image/*,video/*"
+            accept="image/*"
+            multiple
             id="fileUpload"
             ref={fileInputRef}
-            accept="image/*"
             onChange={handleFileChange}
             className="file-input"
           />

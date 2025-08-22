@@ -5,6 +5,7 @@ import { signOut, useSession } from "next-auth/react";
 import { ADToBS } from "bikram-sambat-js";
 import "./header.css";
 import DigitalWatch from "../digital-watch/DigitalWatch";
+import Image from "next/image";
 
 interface Member {
   name: string;
@@ -115,153 +116,145 @@ const Header = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  console.log("userimage", data?.user?.image);
-  return (
-    <header className="header bg-primary text-white shadow-sm sticky-top py-3">
-      <div className="container-fluid">
-        <div className="d-flex justify-content-between align-items-center">
-          {/* हाम्रो परिवार button */}
-          <div className="position-relative me-1" ref={menuDropdownRef}>
-            <button
-              className="btn btn-light rounded-pill px-3 py-1 fw-bold"
-              onClick={() => setIsMenuDropdownVisible((prev) => !prev)}
-            >
-              {data?.user?.name ? data.user.name : "हाम्रो परिवार"}
-            </button>
 
-            {isMenuDropdownVisible && (
-              <div className="position-absolute start-0 mt-2 bg-white text-dark rounded shadow-lg p-3 z-3">
-                <div className="d-flex flex-column gap-2">
-                  <Link
-                    href="/about"
-                    className="btn btn-success btn-sm rounded-pill"
-                    onClick={() => setIsMenuDropdownVisible((prev) => !prev)}
-                  >
-                    बारेमा
-                  </Link>
-                  <Link
-                    href="/all-contents"
-                    className="btn btn-success btn-sm rounded-pill"
-                    onClick={() => setIsMenuDropdownVisible((prev) => !prev)}
-                  >
-                    संस्मरण
-                  </Link>
-                  <Link
-                    href="/content-upload"
-                    className="btn btn-success btn-sm rounded-pill"
-                    onClick={() => setIsMenuDropdownVisible((prev) => !prev)}
-                  >
-                    अपलोड
-                  </Link>
-                  <Link
-                    href="/image-upload"
-                    className="btn btn-success btn-sm rounded-pill"
-                    onClick={() => setIsMenuDropdownVisible((prev) => !prev)}
-                  >
-                    फोटो अपलोड
-                  </Link>
-                  <Link
-                    href="/"
-                    className="btn btn-success btn-sm rounded-pill"
-                    onClick={() => setIsMenuDropdownVisible((prev) => !prev)}
-                  >
-                    एल्बम
-                  </Link>
-                </div>
-              </div>
-            )}
+  return (
+    <header className="headers">
+      {/* हाम्रो परिवार button */}
+      <div className="position-relative me-1" ref={menuDropdownRef}>
+        <button
+          className="btn btn-light rounded-pill px-3 py-1 fw-bold"
+          onClick={() => setIsMenuDropdownVisible((prev) => !prev)}
+        >
+          {data?.user?.name ? data.user.name : "परिवार"}
+        </button>
+
+        {isMenuDropdownVisible && (
+          <div className="position-absolute start-0 mt-2 bg-white text-dark rounded shadow-lg p-3 z-3">
+            <div className="d-flex flex-column gap-2">
+              <Link
+                href="/about"
+                className="btn btn-success btn-sm rounded-pill"
+                onClick={() => setIsMenuDropdownVisible((prev) => !prev)}
+              >
+                बारेमा
+              </Link>
+              <Link
+                href="/all-contents"
+                className="btn btn-success btn-sm rounded-pill"
+                onClick={() => setIsMenuDropdownVisible((prev) => !prev)}
+              >
+                संस्मरण
+              </Link>
+              <Link
+                href="/content-upload"
+                className="btn btn-success btn-sm rounded-pill"
+                onClick={() => setIsMenuDropdownVisible((prev) => !prev)}
+              >
+                अपलोड
+              </Link>
+              <Link
+                href="/image-upload"
+                className="btn btn-success btn-sm rounded-pill"
+                onClick={() => setIsMenuDropdownVisible((prev) => !prev)}
+              >
+                फोटो अपलोड
+              </Link>
+              <Link
+                href="/"
+                className="btn btn-success btn-sm rounded-pill"
+                onClick={() => setIsMenuDropdownVisible((prev) => !prev)}
+              >
+                एल्बम
+              </Link>
+            </div>
           </div>
-          <Link
-            href="/quiz"
+        )}
+      </div>
+      <Link
+        href="/quiz"
+        className="bg-white text-primary rounded-pill mx-3 my-2 px-3 py-2 fw-bold"
+      >
+        खेल्नुहोस्
+      </Link>
+
+      {/* Date and Digital Watch */}
+      <div className="d-none d-lg-block bg-white text-primary rounded-pill px-3 py-1 fw-semibold">
+        {formattedDate}
+      </div>
+      <div className="current-date d-none d-md-block bg-white text-primary rounded-pill px-3 py-1 fw-semibold">
+        <DigitalWatch />
+      </div>
+
+      {/* Auth Links */}
+      <nav className="">
+        {data?.user ? (
+          <button
+            onClick={logoutHandler}
             className="bg-white text-primary rounded-pill mx-3 my-2 px-3 py-2 fw-bold"
           >
-            खेल्नुहोस्
+            लगआउट
+          </button>
+        ) : (
+          <Link
+            href="/login"
+            className="bg-white text-primary rounded-pill mx-3 my-2 px-3 py-2 fw-bold"
+          >
+            लगइन
           </Link>
-          {/* Family Members Dropdown */}
-          <div className="position-relative me-3">
-            {!data?.user ? (
-              <button
-                className={`btn btn-light rounded-circle p-2 p-md-3 d-flex align-items-center justify-content-center ${
-                  isMembersVisible ? "active bg-warning" : ""
-                }`}
-                aria-label="Family members"
-              >
-                <span className="fs-6">👨‍👩‍👧‍👦</span>
-              </button>
-            ) : (
-              <img
-                src={
-                  data.user.image
-                    ? data.user.image
-                    : "/images/user-heart-fill.png"
-                }
-                alt="User"
-                height="50px"
-                width="50px"
-                className="btn btn-info rounded-circle p-1 d-flex align-items-center justify-content-center"
-                onClick={() => setIsMembersVisible(!isMembersVisible)}
-                ref={dropdownRef}
-              />
-            )}
+        )}
+      </nav>
+      {/* Family Members Dropdown */}
+      <div className="position-relative">
+        {!data?.user ? (
+          <button
+            onClick={() => setIsMembersVisible(!isMembersVisible)}
+            className={`btn btn-light rounded-circle p-2 p-md-3 d-flex align-items-center justify-content-center ${
+              isMembersVisible ? "active bg-warning" : ""
+            }`}
+            aria-label="Family members"
+          >
+            👨‍👩
+          </button>
+        ) : (
+          <Image
+            src={
+              data.user.image ? data.user.image : "/images/user-heart-fill.png"
+            }
+            alt="User"
+            height={30}
+            width={30}
+            className="btn btn-info rounded-circle p-1 d-flex align-items-center justify-content-center"
+            onClick={() => setIsMembersVisible(!isMembersVisible)}
+            ref={dropdownRef}
+          />
+        )}
 
-            {isMembersVisible && (
-              <div
-                className="members-dropdown position-absolute start-0 mt-2 bg-white text-dark rounded shadow-lg p-3 z-3"
-                style={{ minWidth: "250px" }}
-              >
-                <h3 className="dropdown-title fs-5 fw-bold mb-3 text-center border-bottom pb-2">
-                  परिवार सदस्य
-                </h3>
-                <ul className="members-list list-unstyled">
-                  {allMembers.map((member, index) => (
-                    <li
-                      key={index}
-                      className="member-item py-2 px-3 rounded hover-bg-light"
-                    >
-                      <div className="d-flex align-items-center fs-6">
-                        <img
-                          src={member.image}
-                          alt={member.name}
-                          height="40px"
-                          width="40px"
-                          className="rounded-circle me-2"
-                        />
-                        <span className="text-truncate">{member.name}</span>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+        {isMembersVisible && (
+          <div className="members-dropdown">
+            <h3 className="dropdown-title fs-5 fw-bold mb-3 text-center border-bottom pb-2">
+              परिवार सदस्य
+            </h3>
+            <ul className="members-list list-unstyled">
+              {allMembers.map((member, index) => (
+                <li
+                  key={index}
+                  className="member-item py-2 px-3 rounded hover-bg-light"
+                >
+                  <div className="d-flex align-items-center fs-6">
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      height="40px"
+                      width="40px"
+                      className="rounded-circle me-2"
+                    />
+                    <span className="text-truncate">{member.name}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
-
-          {/* Date and Digital Watch */}
-          <div className="d-none d-lg-block bg-white text-primary rounded-pill px-3 py-1 fw-semibold">
-            {formattedDate}
-          </div>
-          <div className="current-date d-none d-md-block bg-white text-primary rounded-pill px-3 py-1 fw-semibold">
-            <DigitalWatch />
-          </div>
-
-          {/* Auth Links */}
-          <nav className="nav-links d-flex align-items-center gap-3">
-            {data?.user ? (
-              <button
-                onClick={logoutHandler}
-                className="nav-link btn btn-danger btn-sm px-3 py-1 rounded-pill"
-              >
-                <i className="fas fa-sign-out-alt me-2"></i>लगआउट
-              </button>
-            ) : (
-              <Link
-                href="/login"
-                className="nav-link btn btn-success btn-sm px-3 py-1 rounded-pill"
-              >
-                <i className="fas fa-sign-in-alt me-2"></i>लगइन
-              </Link>
-            )}
-          </nav>
-        </div>
+        )}
       </div>
     </header>
   );
