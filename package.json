@@ -16,12 +16,13 @@
     "canvas-confetti": "^1.9.3",
     "cloudinary": "^2.6.1",
     "date-fns": "^4.1.0",
+    "eslint-config-next": "^16.1.1",
     "framer-motion": "^12.15.0",
     "ioredis": "^5.6.1",
     "lucide-react": "^0.511.0",
     "mongodb": "^6.16.0",
     "mongoose": "^8.14.1",
-    "next": "15.3.1",
+    "next": "^16.1.1",
     "next-auth": "^4.24.11",
     "next-connect": "^1.0.0",
     "react": "^19.0.0",
@@ -42,6 +43,5 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.11",
     "typescript": "^5"
-  },
-  "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac"
+  }
 }
