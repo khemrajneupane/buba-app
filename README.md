@@ -4,7 +4,7 @@
 
 ## 🧠 Motivation
 
-My father, at 83 years young, has an inspiring passion for technology. Whether he's exploring the internet, drafting chapters of his autobiography, or curating cherished family photos and videos, his enthusiasm for learning and creating is truly remarkable.
+My father, at 83 years, has an inspiring passion for technology. Whether he's exploring the internet, drafting chapters of his autobiography, or curating cherished family photos and videos, his enthusiasm for learning and creating is truly remarkable.
 
 Yet, he lacked a dedicated digital space — a personal archive where he could safely preserve, organize, and share his life's work.
 
